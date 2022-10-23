@@ -279,55 +279,68 @@
     },
     {
       "lean": "theorem succ_inj' {a b : mynat} (hs : succ(a) = succ(b)) :  a = b := \n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "apply succ_inj,\r\nexact hs,"
     },
     {
       "lean": "theorem succ_succ_inj {a b : mynat} (h : succ(succ(a)) = succ(succ(b))) :  a = b := \n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "apply succ_inj,\r\napply succ_inj,\r\nexact h,"
     },
     {
       "lean": "theorem succ_eq_succ_of_eq {a b : mynat} : a = b → succ(a) = succ(b) :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intro ab,\r\nrw succ_eq_add_one a,\r\nrw ab,\r\nrw ← succ_eq_add_one b,\r\nrefl,"
     },
     {
       "lean": "theorem succ_eq_succ_iff (a b : mynat) : succ a = succ b ↔ a = b :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "split,\r\nexact succ_inj,\r\nexact succ_eq_succ_of_eq,"
     },
     {
       "lean": "theorem add_right_cancel (a t b : mynat) : a + t = b + t → a = b :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intro h,\r\ninduction t with d hd,\r\nrw add_zero a at h,\r\nrw add_zero b at h,\r\nexact h,\r\nrw add_succ a d at h,\r\nrw add_succ b d at h,\r\nhave adbd := succ_inj h,\r\napply hd,\r\nexact adbd,"
     },
     {
       "lean": "theorem add_left_cancel (t a b : mynat) : t + a = t + b → a = b :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "rw add_comm t a,\r\nrw add_comm t b,\r\nexact add_right_cancel a t b,"
     },
     {
       "lean": "theorem add_right_cancel_iff (t a b : mynat) :  a + t = b + t ↔ a = b :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "split,\r\nexact add_right_cancel a t b,\r\nintro ab,\r\ninduction t with d hd,\r\nrw add_zero a,\r\nrw add_zero b,\r\nexact ab,\r\nrw add_succ a d,\r\nrw hd,\r\nrw ← add_succ b d,\r\nrefl,"
     },
     {
       "lean": "lemma eq_zero_of_add_right_eq_self {a b : mynat} : a + b = a → b = 0 :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intro h,\r\ninduction b with d hd,\r\nrefl,\r\nrw ← add_zero a at h,\r\nrw add_assoc at h,\r\nrw zero_add at h,\r\nrw ← add_right_cancel_iff a (succ d) 0,\r\nrw add_comm (succ d) a,\r\nrw add_comm 0 a,\r\nexact h,"
     },
     {
       "lean": "theorem succ_ne_zero (a : mynat) : succ a ≠ 0 := \n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "symmetry,\r\nexact zero_ne_succ a,"
     },
     {
       "lean": "lemma add_left_eq_zero {{a b : mynat}} (H : a + b = 0) : b = 0 :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "cases b with d,\r\nrefl,\r\nrw add_succ at H,\r\nexfalso,\r\napply succ_ne_zero (a + d),\r\nexact H,"
     },
     {
       "lean": "lemma add_right_eq_zero {a b : mynat} : a + b = 0 → a = 0 :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "rw add_comm a b,\r\nintro ba,\r\nhave azero := add_left_eq_zero ba,\r\nexact azero,"
     },
     {
       "lean": "theorem add_one_eq_succ (d : mynat) : d + 1 = succ d :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "rw ← succ_eq_add_one d,\r\nrefl,"
     },
     {
       "lean": "lemma ne_succ_self (n : mynat) : n ≠ succ n :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intro nsucc,\r\nrw succ_eq_add_one n at nsucc,\r\nrw ← add_zero n at nsucc,\r\nrw add_assoc n 0 1 at nsucc,\r\nrw zero_add 1 at nsucc,\r\nhave umzero := add_left_cancel n 0 1,\r\nhave boom := umzero nsucc,\r\nrw one_eq_succ_zero at boom,\r\napply zero_ne_succ 0,\r\nexact boom,\r\n"
     },
     {
       "lean": "theorem mul_pos (a b : mynat) : a ≠ 0 → b ≠ 0 → a * b ≠ 0 :=\n",

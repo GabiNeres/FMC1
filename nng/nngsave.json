@@ -200,7 +200,7 @@
     {
       "lean": "lemma maze (P Q R S T U: Prop)\n(p : P)\n(h : P → Q)\n(i : Q → R)\n(j : Q → T)\n(k : S → T)\n(l : T → U)\n: U :=\n",
       "isSolved": true,
-      "editorText": "apply l,\r\napply j,\r\napply h,\r\nexact p,"
+      "editorText": "have q := h(p),\r\nhave t := j(q),\r\nhave u := l(t),\r\nexact u,"
     },
     {
       "lean": "example (P Q : Prop) : P → (Q → P) :=\n",
@@ -250,7 +250,7 @@
     {
       "lean": "lemma iff_trans (P Q R : Prop) : (P ↔ Q) → (Q ↔ R) → (P ↔ R) :=\n",
       "isSolved": true,
-      "editorText": "intros hpq hqr, \r\nsplit,\r\n  intro p,\r\n  apply hqr.1,\r\n  apply hpq.1,\r\n  exact p,\r\n  intro r,\r\n  apply hpq.2,\r\n  apply hqr.2,\r\n  exact r,"
+      "editorText": "intros piq qir,\r\ncases piq with hpq hqp,\r\ncases qir with hqr hrq,\r\nsplit,\r\n  intro p,\r\n  apply hqr,\r\n  apply hpq,\r\n  exact p,\r\n  intro r,\r\n  apply hqp,\r\n  apply hrq,\r\n  exact r,"
     },
     {
       "lean": "example (P Q : Prop) : Q → (P ∨ Q) :=\n",
@@ -344,19 +344,23 @@
     },
     {
       "lean": "theorem mul_pos (a b : mynat) : a ≠ 0 → b ≠ 0 → a * b ≠ 0 :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intros ha hb hab,\r\ncases a with n,\r\n  apply ha,\r\n  rw zero_mul b at hab,\r\n  exact hab,\r\n  apply hb,\r\n  rw succ_mul at hab,\r\n  have addzero := add_left_eq_zero hab,\r\n  exact addzero,"
     },
     {
       "lean": "theorem eq_zero_or_eq_zero_of_mul_eq_zero (a b : mynat) (h : a * b = 0) :\n  a = 0 ∨ b = 0 :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "cases b with n,\r\n  right,\r\n  rw mul_zero at h,\r\n  exact h,\r\n  rw mul_succ at h,\r\n  have addzero := add_left_eq_zero h,\r\n  left,\r\n  exact addzero, "
     },
     {
       "lean": "theorem mul_eq_zero_iff (a b : mynat): a * b = 0 ↔ a = 0 ∨ b = 0 :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "split,\r\n  intro h,\r\n  apply eq_zero_or_eq_zero_of_mul_eq_zero,\r\n  exact h,\r\n  intro h1,\r\n  cases h1 with ha hb,\r\n  rw ha,\r\n  rw zero_mul,\r\n  refl,\r\n  rw hb,\r\n  rw mul_zero,\r\n  refl,"
     },
     {
       "lean": "theorem mul_left_cancel (a b c : mynat) (ha : a ≠ 0) : a * b = a * c → b = c :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "induction c with d hd generalizing b,\r\n  intro hab,\r\n  rw mul_zero at hab,\r\n  have abzero := eq_zero_or_eq_zero_of_mul_eq_zero a b,\r\n  have bzero := abzero hab,\r\n  cases bzero with haa hb,\r\n    contradiction,\r\n    exact hb,\r\n  intros hsucc,\r\n  cases b with n,\r\n    rw mul_zero at hsucc,\r\n    symmetry at hsucc,\r\n    rw mul_eq_zero_iff at hsucc,\r\n    cases hsucc with ha hsuccd,\r\n      contradiction,\r\n      symmetry,\r\n      exact hsuccd,\r\n    apply succ_eq_succ_of_eq,\r\n    rw mul_succ a n at hsucc,\r\n    rw mul_succ a d at hsucc,\r\n    have newsucc := add_right_cancel (a*n) a (a*d),\r\n    have new := newsucc hsucc,\r\n    have newhd := hd n,\r\n    apply newhd,\r\n    exact new,"
     },
     {
       "lean": "lemma one_add_le_self (x : mynat) : x ≤ 1 + x :=\n",

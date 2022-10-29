@@ -364,71 +364,88 @@
     },
     {
       "lean": "lemma one_add_le_self (x : mynat) : x ≤ 1 + x :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "--rw le_iff_exists_add,\r\nuse 1,\r\nexact add_comm 1 x,"
     },
     {
       "lean": "lemma le_refl (x : mynat) : x ≤ x :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "use 0,\r\nrefl,"
     },
     {
       "lean": "theorem le_succ (a b : mynat) : a ≤ b → a ≤ (succ b) :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intro h,\r\ncases h with c hc,\r\nrw hc,\r\nuse (succ c),\r\nrefl,"
     },
     {
       "lean": "lemma zero_le (a : mynat) : 0 ≤ a :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "rw le_iff_exists_add,\r\nuse a,\r\nrw zero_add a,\r\nrefl,"
     },
     {
       "lean": "theorem le_trans (a b c : mynat) (hab : a ≤ b) (hbc : b ≤ c) : a ≤ c :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "rw le_iff_exists_add at hab hbc ⊢,\r\ncases hab with d hd,\r\ncases hbc with e he,\r\nrw he,\r\nrw hd,\r\nuse (d+e),\r\nrw add_assoc a d e,\r\nrefl,"
     },
     {
       "lean": "theorem le_antisymm (a b : mynat) (hab : a ≤ b) (hba : b ≤ a) : a = b :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "rw le_iff_exists_add at hab hba,\r\ncases hba with c hc,\r\ncases hab with d hd,\r\nrw hc at hd,\r\nrw add_assoc b c d at hd,\r\nsymmetry at hd,\r\nhave h := eq_zero_of_add_right_eq_self hd,\r\nhave czero := add_right_eq_zero h,\r\nrw hc,\r\nrw czero,\r\nexact add_zero b,"
     },
     {
       "lean": "lemma le_zero (a : mynat) (h : a ≤ 0) : a = 0 :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "rw le_iff_exists_add at h,\r\ncases h with c hc,\r\nsymmetry at hc,\r\nhave h1 := add_right_eq_zero hc,\r\nexact h1,"
     },
     {
       "lean": "lemma succ_le_succ (a b : mynat) (h : a ≤ b) : succ a ≤ succ b :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "rw le_iff_exists_add at h ⊢,\r\ncases h with c hc,\r\nrw hc,\r\nuse c,\r\nrw succ_add a c,\r\nrefl,"
     },
     {
       "lean": "theorem le_total (a b : mynat) : a ≤ b ∨ b ≤ a :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "rw le_iff_exists_add,\r\nrw le_iff_exists_add,\r\nrevert a,\r\ninduction b with d hd,\r\n  intro a,\r\n    right,\r\n    use a,\r\n    rw zero_add a,\r\n    refl,\r\n  intro a,\r\n    cases a with n,\r\n      left,\r\n      use succ d,\r\n      rw zero_add,\r\n      refl,\r\n      cases hd n with dn nd,\r\n        left,\r\n        apply succ_le_succ,\r\n        exact dn,\r\n        right,\r\n        apply succ_le_succ,\r\n        exact nd,"
     },
     {
       "lean": "lemma le_succ_self (a : mynat) : a ≤ succ a :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "apply le_succ a a,\r\nexact le_refl a,"
     },
     {
       "lean": "theorem add_le_add_right {a b : mynat} : a ≤ b → ∀ t, (a + t) ≤ (b + t) :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intros h t,\r\nrw le_iff_exists_add at h ⊢,\r\ninduction t with d hd,\r\n  rw add_zero b,\r\n  rw add_zero a,\r\n  exact h,\r\n  rw add_succ b d,\r\n  cases hd with e he,\r\n  rw he,\r\n  use e,\r\n  rw add_succ a d,\r\n  rw succ_add (a+d) e,\r\n  refl,\r\n"
     },
     {
       "lean": "theorem le_of_succ_le_succ (a b : mynat) : succ a ≤ succ b → a ≤ b :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intro h,\r\nrw le_iff_exists_add at h ⊢,\r\ncases h with c hc,\r\nrw succ_add a c at hc,\r\nrw succ_eq_add_one b at hc,\r\nrw succ_eq_add_one (a+c) at hc,\r\nuse c,\r\nhave cancel := add_right_cancel b 1 (a+c),\r\napply cancel,\r\nexact hc,"
     },
     {
       "lean": "theorem not_succ_le_self (a : mynat) : ¬ (succ a ≤ a) :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intro h,\r\nrw le_iff_exists_add at h,\r\ncases h with c hc,\r\n  rw succ_eq_add_one at hc,\r\n  symmetry at hc,\r\n  rw add_assoc at hc,\r\n  have hd := eq_zero_of_add_right_eq_self hc,\r\n  apply zero_ne_succ c,\r\n  rw add_comm at hd,\r\n  rw add_one_eq_succ at hd,\r\n  symmetry,\r\n  exact hd,"
     },
     {
       "lean": "theorem add_le_add_left {a b : mynat} (h : a ≤ b) (t : mynat) :\n  t + a ≤ t + b :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "rw le_iff_exists_add at h ⊢,\r\ncases h with c hc,\r\nuse c,\r\nrw add_assoc t a c,\r\nrw hc,\r\nrefl,"
     },
     {
       "lean": "lemma lt_aux_one (a b : mynat) : a ≤ b ∧ ¬ (b ≤ a) → succ a ≤ b :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intro h,\r\ncases h with ab nba,\r\nrw le_iff_exists_add at ab nba ⊢,\r\ncases ab with c hc,\r\ncases c with n,\r\n  exfalso,\r\n  apply nba,\r\n  use 0,\r\n  rw hc,\r\n  rw add_zero a, rw add_zero a,\r\n  refl,\r\n  use n,\r\n  rw succ_add a n,\r\n  rw add_succ a n at hc,\r\n  exact hc,"
     },
     {
       "lean": "lemma lt_aux_two (a b : mynat) : succ a ≤ b → a ≤ b ∧ ¬ (b ≤ a) :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intro h,\r\nsplit,\r\n  rw succ_eq_add_one at h,\r\n  rw le_iff_exists_add at h ⊢,\r\n  cases h with c hc,\r\n  use 1+c,\r\n  rw ← add_assoc,\r\n  exact hc,\r\n\r\n  intro ba,\r\n  rw le_iff_exists_add at h ba,\r\n  cases h with c hc,\r\n  rw hc at ba,\r\n  cases ba with d hd,\r\n  symmetry at hd,\r\n  rw succ_eq_add_one at hd,\r\n  rw add_assoc (a+1) c d at hd,\r\n  rw add_assoc a 1 (c+d) at hd,\r\n  have eqzero := eq_zero_of_add_right_eq_self hd,\r\n  have umzero := add_right_eq_zero eqzero,\r\n  rw one_eq_succ_zero at umzero,\r\n  apply zero_ne_succ 0,\r\n  symmetry,\r\n  exact umzero,"
     },
     {
       "lean": "lemma lt_iff_succ_le (a b : mynat) : a < b ↔ succ a ≤ b :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "split,\r\napply lt_aux_one,\r\napply lt_aux_two,"
     }
   ]
 }
